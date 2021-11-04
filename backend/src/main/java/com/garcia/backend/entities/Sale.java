@@ -1,7 +1,6 @@
 package com.garcia.backend.entities;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,13 +10,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.modelmapper.ModelMapper;
+
+import com.garcia.backend.dto.SaleDTO;
+
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "tb_sales")
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 public class Sale {
 	
 	@Id
@@ -31,4 +36,8 @@ public class Sale {
 	@ManyToOne
 	@JoinColumn(name = "seller_id")
 	private Seller seller;
+	
+	public static Sale create(SaleDTO saleDTO) {
+        return new ModelMapper().map(saleDTO, Sale.class);
+    }
 }
